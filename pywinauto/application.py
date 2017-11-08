@@ -93,24 +93,21 @@ from .sysinfo import is_x64_Python
 
 
 class AppStartError(Exception):
-
     """There was a problem starting the Application"""
 
-    pass    # pragma: no cover
+    pass  # pragma: no cover
 
 
 class ProcessNotFoundError(Exception):
-
     """Could not find that process"""
 
-    pass    # pragma: no cover
+    pass  # pragma: no cover
 
 
 class AppNotConnected(Exception):
-
     """Application has not been connected to a process yet"""
 
-    pass    # pragma: no cover
+    pass  # pragma: no cover
 
 
 # Display User and Deprecation warnings every time
@@ -118,9 +115,8 @@ for warning in (UserWarning, PendingDeprecationWarning):
     warnings.simplefilter('always', warning)
 
 
-#=========================================================================
+# =========================================================================
 class WindowSpecification(object):
-
     """
     A specification for finding a window or control
 
@@ -170,7 +166,7 @@ class WindowSpecification(object):
         if "best_match" in self.criteria[-1]:
             raise AttributeError(
                 "WindowSpecification class has no '{0}' method".
-                format(self.criteria[-1]['best_match']))
+                    format(self.criteria[-1]['best_match']))
 
         message = (
             "You tried to execute a function call on a WindowSpecification "
@@ -211,9 +207,9 @@ class WindowSpecification(object):
                 ctrls.append(ctrl)
 
         if ctrls:
-            return (dialog, ) + tuple(ctrls)
+            return (dialog,) + tuple(ctrls)
         else:
-            return (dialog, )
+            return (dialog,)
 
     def __resolve_control(self, criteria, timeout=None, retry_interval=None):
         """
@@ -306,8 +302,8 @@ class WindowSpecification(object):
                 return ctrls[-1][key]
             else:
                 message = "The control does not have a __getitem__ method " \
-                    "for item access (i.e. ctrl[key]) so maybe you have " \
-                    "requested this in error?"
+                          "for item access (i.e. ctrl[key]) so maybe you have " \
+                          "requested this in error?"
 
                 raise AttributeError(message)
 
@@ -618,10 +614,10 @@ class WindowSpecification(object):
                     ctrl_text = ctrl_text.replace('\n', r'\n').replace('\r', r'\r')
 
                 output = indent + u'\n'
-                output += indent + u"{class_name} - '{text}'    {rect}\n"\
-                    "".format(class_name=ctrl.friendly_class_name(),
-                              text=ctrl_text,
-                              rect=ctrl.rectangle())
+                output += indent + u"{class_name} - '{text}'    {rect}\n" \
+                                   "".format(class_name=ctrl.friendly_class_name(),
+                                             text=ctrl_text,
+                                             rect=ctrl.rectangle())
                 output += indent + u'{}'.format(ctrl_id_name_map[ctrl_id])
 
                 title = ctrl_text
@@ -660,14 +656,15 @@ class WindowSpecification(object):
 
             def log_func(msg):
                 log_file.write(str(msg) + os.linesep)
+
             log_func("Control Identifiers:")
             print_identifiers([this_ctrl, ], log_func=log_func)
             log_file.close()
 
     print_ctrl_ids = print_control_identifiers
     dump_tree = print_control_identifiers
-    
-    def window_coords(self, _path, depth=None, filename=None):
+
+    def window_coords(self, depth=None, filename=None):
         """
         Prints the 'identifiers'
 
@@ -720,13 +717,15 @@ class WindowSpecification(object):
                     ctrl_text = ctrl_text.replace('\n', r'\n').replace('\r', r'\r')
 
                 output = indent + u'\n'
-                output += indent + u"{class_name} - '{text}'    {rect}\n"\
-                    "".format(class_name=ctrl.friendly_class_name(),
-                              text=ctrl_text,
-                              rect=ctrl.rectangle())
-                file = open(_path,"w") 
-                file.write(output) 
-                file.close() 
+                output += indent + u"{class_name} - '{text}'    {rect}\n" \
+                                   "".format(class_name=ctrl.friendly_class_name(),
+                                             text=ctrl_text,
+                                             rect=ctrl.rectangle())
+
+                strings = output.encode('utf-8')
+                file = open("testfile.txt", "w")
+                file.write(strings)
+                file.close()
                 output += indent + u'{}'.format(ctrl_id_name_map[ctrl_id])
 
                 title = ctrl_text
@@ -750,27 +749,30 @@ class WindowSpecification(object):
                 if title or class_name or auto_id:
                     output += u'\n' + indent + u'child_window(' + u', '.join(criteria_texts) + u')'
 
-                if six.PY3:
-                    log_func(output)
-                else:
-                    log_func(output.encode(locale.getpreferredencoding(), errors='backslashreplace'))
+                # if six.PY3:
+                #     log_func(output)
+                # else:
+                #     log_func(output.encode(locale.getpreferredencoding(), errors='backslashreplace'))
 
                 print_identifiers(ctrl.children(), current_depth + 1, log_func)
 
         if filename is None:
-            print("Control Identifiers:")
+            # print("Control Identifiers:")
             print_identifiers([this_ctrl, ])
         else:
             log_file = open(filename, "w")
 
             def log_func(msg):
                 log_file.write(str(msg) + os.linesep)
+
             log_func("Control Identifiers:")
             print_identifiers([this_ctrl, ], log_func=log_func)
             log_file.close()
 
-    #print_ctrl_ids = print_control_identifiers
-    #dump_tree = print_control_identifiers
+            # print_ctrl_ids = print_control_identifiers
+            # dump_tree = print_control_identifiers
+
+
 cur_item = 0
 
 
@@ -799,13 +801,13 @@ def _resolve_from_appdata(
             if unloc_attrib in c.keys():
                 del c[unloc_attrib]
 
-    #found_criteria = item[0]
-    #for c in found_criteria:
+    # found_criteria = item[0]
+    # for c in found_criteria:
     #    if c.has_key('process'):
     #        del c['process']
     #
     # They should match - so if they don't print it out.
-    #if found_criteria != search_criteria:
+    # if found_criteria != search_criteria:
     #    print "\t\t", matched[cur_index - 3][0]
     #    print "\t" ,matched[cur_index - 2][0]
     #    print search_criteria
@@ -814,7 +816,7 @@ def _resolve_from_appdata(
     #    raise RuntimeError("Mismatch")
 
     # so let's use the ID from the matched control...
-    #print item[1]
+    # print item[1]
 
     # we need to try and get a good match for the dialog
     # this could be done by matching
@@ -823,7 +825,7 @@ def _resolve_from_appdata(
     # anything else?
 
     dialog_criterion = criteria[0]
-    #print list(matched_control)
+    # print list(matched_control)
     dialog_criterion['class_name'] = matched_control[1]['class_name']
 
     # find all the windows in the process
@@ -832,33 +834,33 @@ def _resolve_from_appdata(
     dialog = None
     ctrl = None
     if process_elems:
-        #similar_child_count = [e for e in process_elems
+        # similar_child_count = [e for e in process_elems
         #    if matched_control[1]['control_count'] -2 <=
         #            len(e.children()) and
         #        matched_control[1]['control_count'] +2 >=
         #            len(e.children())]
 
-        #if similar_child_count:
+        # if similar_child_count:
         #    process_hwnds = similar_child_count
-        #else:
+        # else:
         #    print("None Similar child count!!???")
         #    print(matched_control[1]['control_count'], len(handleprops.children(h)))
 
         for e in process_elems:
-            #print controls.WrapHandle(h).get_properties()
-            #print "======", h, h, h
+            # print controls.WrapHandle(h).get_properties()
+            # print "======", h, h, h
 
             dialog = registry.wrapper_class(e)
 
             # if a control was specified also
             if len(criteria_) > 1:
                 # find it in the original data
-                #print item[2]
+                # print item[2]
 
                 # remove those criteria which are langauge specific
                 ctrl_criterion = criteria[1]
 
-                #def has_same_id(other_ctrl):
+                # def has_same_id(other_ctrl):
                 #    print "==="*20
                 #    print "testing", item[2]['control_id'],
                 #    print "against", other_ctrl
@@ -868,8 +870,8 @@ def _resolve_from_appdata(
                 ctrl_criterion['class_name'] = matched_control[2]['class_name']
                 ctrl_criterion['parent'] = dialog.handle
                 ctrl_criterion['top_level_only'] = False
-                #ctrl_criterion['predicate_func'] = has_same_id
-                #print "CTRLCTRJL", ctrl_criterion
+                # ctrl_criterion['predicate_func'] = has_same_id
+                # print "CTRLCTRJL", ctrl_criterion
                 ctrl_elems = findwindows.find_elements(**ctrl_criterion)
 
                 if len(ctrl_elems) > 1:
@@ -884,7 +886,7 @@ def _resolve_from_appdata(
                     ctrl = registry.wrapper_class(ctrl_elems[0])
                 except IndexError:
                     print("-+-+=_" * 20)
-                    #print(found_criteria)
+                    # print(found_criteria)
                     raise
 
                 break
@@ -900,58 +902,57 @@ def _resolve_from_appdata(
     if ctrl:
         return dialog, ctrl
     else:
-        return (dialog, )
+        return (dialog,)
 
-    #print process_hwnds
-
-
-#
-#        # if best match was specified for the dialog
-#        # then we need to replace it with other values
-#        # for now we will just use class_name
-#        for crit in ['best_match', 'title', 'title_re']:
-#            if crit in criteria[0]:
-#                del(criteria[0][crit])
-#                criteria[0]['class_name'] = app_data[0].class_name()#['class_name']
-#
-#            if len(criteria) > 1:
-#                # find the best match of the application data
-#                if criteria[1].has_key('best_match'):
-#                    best_match = findbestmatch.find_best_control_matches(
-#                        criteria[1]['best_match'], app_data)[0]
-#
-#                    #visible_controls = [ctrl in app_data if ctrl.is_visible()]
-#
-#                    #find the index of the best match item
-#                    ctrl_index = app_data.index(best_match)
-#                    #print best_match[0].window_text()
-#                    ctrl_index, best_match.window_text()
-#
-#                    criteria[1]['ctrl_index'] = ctrl_index -1
-#                    #criteria[1]['class_name'] = best_match.class_name()
-#                    #del(criteria[1]['best_match'])
-#
-# One idea here would be to run the new criteria on the app_data dialog and
-# if it returns more then one control then you figure out which one would be
-# best - so that you have that info when running on the current dialog
-#
-#            #for criterion in criteria[1:]:
-#                # this part is weird - we now have to go off and find the
-#                # index, class, text of the control in the app_data
-#                # and then find the best match for this control in the
-#                # current dialog
-#            #    pass
-#
-#
-
-#    dialog = None
-
-    #return _resolve_control(criteria_, timeout, retry_interval)
+        # print process_hwnds
 
 
-#=========================================================================
+        #
+        #        # if best match was specified for the dialog
+        #        # then we need to replace it with other values
+        #        # for now we will just use class_name
+        #        for crit in ['best_match', 'title', 'title_re']:
+        #            if crit in criteria[0]:
+        #                del(criteria[0][crit])
+        #                criteria[0]['class_name'] = app_data[0].class_name()#['class_name']
+        #
+        #            if len(criteria) > 1:
+        #                # find the best match of the application data
+        #                if criteria[1].has_key('best_match'):
+        #                    best_match = findbestmatch.find_best_control_matches(
+        #                        criteria[1]['best_match'], app_data)[0]
+        #
+        #                    #visible_controls = [ctrl in app_data if ctrl.is_visible()]
+        #
+        #                    #find the index of the best match item
+        #                    ctrl_index = app_data.index(best_match)
+        #                    #print best_match[0].window_text()
+        #                    ctrl_index, best_match.window_text()
+        #
+        #                    criteria[1]['ctrl_index'] = ctrl_index -1
+        #                    #criteria[1]['class_name'] = best_match.class_name()
+        #                    #del(criteria[1]['best_match'])
+        #
+        # One idea here would be to run the new criteria on the app_data dialog and
+        # if it returns more then one control then you figure out which one would be
+        # best - so that you have that info when running on the current dialog
+        #
+        #            #for criterion in criteria[1:]:
+        #                # this part is weird - we now have to go off and find the
+        #                # index, class, text of the control in the app_data
+        #                # and then find the best match for this control in the
+        #                # current dialog
+        #            #    pass
+        #
+        #
+
+        #    dialog = None
+
+        # return _resolve_control(criteria_, timeout, retry_interval)
+
+
+# =========================================================================
 class Application(object):
-
     """
     Represents an application
 
@@ -1036,9 +1037,9 @@ class Application(object):
         elif 'path' in kwargs:
             try:
                 self.process = timings.wait_until_passes(
-                        timeout, retry_interval, process_from_module,
-                        ProcessNotFoundError, kwargs['path'],
-                    )
+                    timeout, retry_interval, process_from_module,
+                    ProcessNotFoundError, kwargs['path'],
+                )
             except TimeoutError:
                 raise ProcessNotFoundError('Process "{}" not found!'.format(kwargs['path']))
             connected = True
@@ -1085,15 +1086,15 @@ class Application(object):
             dw_creation_flags = win32con.CREATE_NEW_CONSOLE
         try:
             (h_process, _, dw_process_id, _) = win32process.CreateProcess(
-                None, 					# module name
-                command_line,			# command line
-                None, 					# Process handle not inheritable.
-                None, 					# Thread handle not inheritable.
-                0, 						# Set handle inheritance to FALSE.
-                dw_creation_flags,		# Creation flags.
-                None, 					# Use parent's environment block.
-                work_dir,				# If None - use parent's starting directory.
-                start_info)				# STARTUPINFO structure.
+                None,  # module name
+                command_line,  # command line
+                None,  # Process handle not inheritable.
+                None,  # Thread handle not inheritable.
+                0,  # Set handle inheritance to FALSE.
+                dw_creation_flags,  # Creation flags.
+                None,  # Use parent's environment block.
+                work_dir,  # If None - use parent's starting directory.
+                start_info)  # STARTUPINFO structure.
         except Exception as exc:
             # if it failed for some reason
             message = ('Could not create the process "%s"\n'
@@ -1280,6 +1281,7 @@ class Application(object):
             win_spec = WindowSpecification(kwargs)
 
         return win_spec
+
     Window_ = window_ = window
 
     def __getitem__(self, key):
@@ -1391,7 +1393,7 @@ class Application(object):
         wait_until(timeout, retry_interval, self.is_process_running, value=False)
 
 
-#=========================================================================
+# =========================================================================
 def assert_valid_process(process_id):
     """Raise ProcessNotFound error if process_id is not a valid process id"""
     try:
@@ -1405,10 +1407,11 @@ def assert_valid_process(process_id):
 
     return process_handle
 
+
 AssertValidProcess = assert_valid_process  # just in case
 
 
-#=========================================================================
+# =========================================================================
 def process_get_modules():
     """Return the list of processes as tuples (pid, exe_path)"""
     modules = []
@@ -1424,7 +1427,7 @@ def process_get_modules():
     return modules
 
 
-#=========================================================================
+# =========================================================================
 def _process_get_modules_wmi():
     """Return the list of processes as tuples (pid, exe_path)"""
     from win32com.client import GetObject
@@ -1439,7 +1442,7 @@ def _process_get_modules_wmi():
     return modules
 
 
-#=========================================================================
+# =========================================================================
 def process_module(process_id):
     """Return the string module name of this process"""
     process_handle = assert_valid_process(process_id)
@@ -1447,7 +1450,7 @@ def process_module(process_id):
     return win32process.GetModuleFileNameEx(process_handle, 0)
 
 
-#=========================================================================
+# =========================================================================
 def _warn_incorrect_binary_bitness(exe_name):
     """Warn if the executable is of incorrect bitness"""
     if os.path.isabs(exe_name) and os.path.isfile(exe_name) and \
@@ -1458,7 +1461,7 @@ def _warn_incorrect_binary_bitness(exe_name):
             UserWarning, stacklevel=2)
 
 
-#=========================================================================
+# =========================================================================
 def process_from_module(module):
     """Return the running process with path module"""
     # normalize . or .. relative parts of absolute path
